@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Romit Sen — Applied AI Engineer</title>
+<meta name="description" content="Applied AI engineer. I build production LLM and RAG systems that turn messy documents into structured, validated data.">
+<meta property="og:title" content="Romit Sen — Applied AI Engineer">
+<meta property="og:description" content="Production LLM and RAG systems that turn messy documents into structured, validated data.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0E1420; --bg-2: #141C2B; --ink: #E9EDF3; --muted: #8C97A8; --rule: #24304A;
+    --accent: #F5B94E; --accent-2: #7FB2FF; --gain: #6EE7B7; --shadow: 0 20px 50px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"] {
+    --bg: #F6F7F9; --bg-2: #FFFFFF; --ink: #151A24; --muted: #5E6878; --rule: #DEE2EA;
+    --accent: #B7791F; --accent-2: #2457C5; --gain: #0B7A55; --shadow: 0 20px 50px rgba(20,30,60,.10);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .hero-in { animation: none !important; opacity: 1 !important; transform: none !important; } }
+
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background .25s, color .25s; }
+  h1, h2, h3 { font-family: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif; letter-spacing: -0.01em; }
+  a { color: var(--accent-2); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+  img { max-width: 100%; height: auto; display: block; }
+  .wrap { max-width: 66rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* top bar */
+  .top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 3.6rem; }
+  .brand { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; color: var(--ink); font-size: 1.05rem; }
+  .top nav { display: flex; gap: 1.4rem; align-items: center; font-size: 0.95rem; }
+  .top nav a { color: var(--muted); }
+  .top nav a:hover { color: var(--ink); text-decoration: none; }
+  .theme { background: none; border: 1px solid var(--rule); color: var(--ink); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; font: inherit; font-size: 0.85rem; }
+  @media (max-width: 40rem) { .top nav a:not(.keep) { display: none; } }
+
+  /* hero */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero .wrap { position: relative; padding: 5.5rem 1.5rem 5rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; }
+  .hero h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); font-weight: 700; line-height: 0.98; margin: 0 0 0.9rem; }
+  .hero .role { font-size: 1.3rem; color: var(--accent); margin: 0 0 1.3rem; font-weight: 500; }
+  .hero .statement { max-width: 36rem; font-size: 1.15rem; margin: 0 0 1.9rem; }
+  .cta { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: 0.68rem 1.15rem; border-radius: 6px; font-weight: 600; border: 1px solid var(--rule); color: var(--ink); background: var(--bg-2); }
+  .btn.primary { background: var(--accent); color: #1A1300; border-color: var(--accent); }
+  .btn:hover { text-decoration: none; filter: brightness(1.06); }
+  .hero-in { opacity: 0; transform: translateY(14px); animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-in:nth-child(2) { animation-delay: .08s } .hero-in:nth-child(3) { animation-delay: .16s } .hero-in:nth-child(4) { animation-delay: .24s }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .portrait { width: 15rem; height: 15rem; border-radius: 14px; object-fit: cover; border: 1px solid var(--rule); box-shadow: var(--shadow); background: var(--bg-2); }
+  @media (max-width: 52rem) {
+    .hero .wrap { grid-template-columns: 1fr; gap: 2rem; }
+    .portrait { width: 8.5rem; height: 8.5rem; order: -1; }
+  }
+
+  /* sections */
+  section { padding: 4.5rem 0 0; }
+  section > .wrap > h2 { font-size: 2rem; font-weight: 700; margin: 0 0 0.5rem; }
+  .lede { color: var(--muted); margin: 0 0 2rem; max-width: 42rem; }
+
+  /* role / project entries */
+  .entry { display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; padding: 2.25rem 0; border-top: 1px solid var(--rule); }
+  .entry.solo { grid-template-columns: 1fr; }
+  .entry h3 { font-size: 1.5rem; font-weight: 700; margin: 0 0 0.3rem; line-height: 1.2; }
+  .entry .sub { color: var(--muted); margin: 0 0 1rem; font-size: 0.95rem; }
+  .entry p { margin: 0 0 1rem; }
+  .entry ul { margin: 0 0 1rem; padding-left: 1.15rem; }
+  .entry li { margin-bottom: .4rem; }
+  .entry .out { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; font-size: 0.95rem; font-weight: 500; }
+  .panel { background: var(--bg-2); border: 1px solid var(--rule); border-radius: 10px; padding: 1.25rem 1.4rem; box-shadow: var(--shadow); align-self: start; }
+  .panel .cap { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.6rem; }
+  .panel .cap + table + .cap { margin-top: .9rem; }
+  table.results { width: 100%; border-collapse: collapse; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  table.results th, table.results td { text-align: left; padding: 0.5rem 0.5rem 0.5rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  table.results th { color: var(--muted); font-weight: 500; font-size: 0.85rem; }
+  table.results td.num, table.results th.num { text-align: right; padding-right: 0; white-space: nowrap; }
+  table.results tr.mine td { font-weight: 600; }
+  table.results tr.mine td.num { color: var(--gain); }
+  table.results tr:last-child td { border-bottom: 0; }
+  @media (max-width: 52rem) { .entry { grid-template-columns: 1fr; gap: 1.25rem; } }
+
+  /* compact lists (education) */
+  .list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .list > li { display: grid; grid-template-columns: 9rem 1fr; gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); }
+  .list .when { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 0.95rem; padding-top: .15rem; }
+  .list h3 { font-size: 1.15rem; margin: 0; font-weight: 700; }
+  .list .where { color: var(--muted); margin: 0 0 0.35rem; font-size: 0.95rem; }
+  .list .note { color: var(--muted); margin: 0.2rem 0 0; font-size: 0.98rem; }
+  @media (max-width: 40rem) { .list > li { grid-template-columns: 1fr; gap: .2rem; } }
+
+  .stack { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 0.8rem 2rem; }
+  .stack p { margin: 0; }
+  .stack b { display: block; font-weight: 600; color: var(--muted); font-size: 0.85rem; margin-bottom: .15rem; }
+
+  footer { margin-top: 5rem; padding: 1.5rem 0 3rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.92rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Romit Sen</a>
+    <nav>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#stack">Stack</a>
+      <a class="keep" href="resume.pdf" download="Romit_Sen_Resume.pdf">Resume</a>
+      <button class="theme keep" id="theme" type="button" aria-label="Toggle light and dark theme">Light</button>
+    </nav>
+  </div>
+</div>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero" id="top">
+  <canvas id="descent" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <h1 class="hero-in">Romit Sen</h1>
+      <p class="role hero-in">Applied AI Engineer · LLM &amp; RAG systems</p>
+      <p class="statement hero-in">
+        I build production pipelines that turn messy documents into structured, validated data.
+        Right now that means neuroscience papers at MindSpec: Claude structured outputs, Pydantic schemas,
+        hybrid pgvector retrieval, and the evaluation tooling that lets a reviewer trust the result.
+      </p>
+      <div class="cta hero-in">
+        <a class="btn primary" href="mailto:senromit7@gmail.com">Email me</a>
+        <a class="btn" href="https://github.com/rs105">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/senromit">LinkedIn</a>
+        <a class="btn" href="resume.pdf" download="Romit_Sen_Resume.pdf">Resume (PDF)</a>
+      </div>
+    </div>
+    <!-- Put photo.jpg (square, 600px+) next to this file. Falls back to the GitHub avatar if missing. -->
+    <img class="portrait" src="photo.jpg" alt="Romit Sen" width="240" height="240"
+         onerror="this.onerror=null;this.src='https://avatars.githubusercontent.com/u/35870133?v=4'">
+  </div>
+</header>
+
+<!-- ============================ EXPERIENCE ============================ -->
+<section id="experience">
+  <div class="wrap">
+    <h2>Experience</h2>
+    <p class="lede">Roles, and what changed because I was in them.</p>
+
+    <article class="entry">
+      <div>
+        <h3>Applied AI Engineer</h3>
+        <p class="sub">MindSpec, Inc. · McLean, VA · July 2026 – present</p>
+        <ul>
+          <li>Rebuilt the scientific extraction pipeline around Claude structured outputs and Pydantic validation, populating a 167-field, 9-table evidence schema across 10+ gold-standard publications.</li>
+          <li>Cut per-paper curation from about 3 hours to about 45 minutes plus reviewer sign-off.</li>
+          <li>Designed hybrid PostgreSQL/pgvector retrieval: BGE-M3 dense vectors with HNSW, full-text search, and Reciprocal Rank Fusion.</li>
+          <li>Added automated vocabulary checks, provenance-aware deduplication, LLM-as-judge auditing, regression fixtures, and LangSmith observability so prompt and index changes can't silently degrade results.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <p class="cap">Curation time per paper</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Manual</td><td class="num">~3 h</td></tr>
+            <tr class="mine"><td>Pipeline + reviewer sign-off</td><td class="num">~45 min</td></tr>
+          </tbody>
+        </table>
+        <p class="cap">Retrieval layer</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Dense</td><td class="num">BGE-M3 · HNSW</td></tr>
+            <tr><td>Sparse</td><td class="num">Postgres full-text</td></tr>
+            <tr><td>Fusion</td><td class="num">RRF</td></tr>
+            <tr><td>Quality</td><td class="num">LLM-as-judge · fixtures</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div>
+        <h3>AI Research Intern</h3>
+        <p class="sub">MindSpec, Inc. · September 2025 – July 2026</p>
+        <ul>
+          <li>Developed the v1 RAG pipeline with Docling, PubMedBERT, pgvector and Claude, converting 50+ biomedical PDFs into 4,400 structured records including confidence intervals and adjustment metadata, with a two-pass fallback for documents that exceeded the context window.</li>
+          <li>Built ontology normalization for exposure terms using exact, token and RapidFuzz matching; about 91% canonicalized automatically, the remainder routed to expert review, with factors linked to ChEBI, ECTO and ICD-10.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <p class="cap">Throughput and coverage</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Source PDFs</td><td class="num">50+</td></tr>
+            <tr><td>Structured records</td><td class="num">4,400</td></tr>
+            <tr class="mine"><td>Terms canonicalized automatically</td><td class="num">~91%</td></tr>
+            <tr><td>Ontologies linked</td><td class="num">ChEBI · ECTO · ICD-10</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div>
+        <h3>Data Analyst Intern</h3>
+        <p class="sub">Bear Cognition, Inc. · North Charleston, SC · May – August 2024</p>
+        <ul>
+          <li>Replaced manual JotForm workflows with 9 Plotly Dash applications writing directly to Snowflake for a training facility serving Olympic and professional athletes.</li>
+          <li>Prototyped a reusable OCR ingestion and analytics tool for LTL shipping companies, parsing receipts and orders into a Dash AG Grid dashboard backed by MongoDB.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <p class="cap">Outcome</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Dash applications shipped</td><td class="num">9</td></tr>
+            <tr class="mine"><td>Still in production after</td><td class="num">12+ months</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="entry solo">
+      <div>
+        <h3>Quality Assurance Analyst</h3>
+        <p class="sub">Tata Consultancy Services · Kolkata, India · July 2021 – September 2022</p>
+        <ul>
+          <li>Tested SAP CRM/FI workflows for a Big Four professional services client; logged and triaged 400+ JIRA defects and built automated regression suites with Selenium and Robot Framework.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ PROJECTS ============================ -->
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+    <p class="lede">Independent work. Code is public for all of these.</p>
+
+    <article class="entry">
+      <div>
+        <h3>Agentic HR assistant over MCP</h3>
+        <p class="sub">2025 · Python, FastMCP, Claude Desktop</p>
+        <p>An MCP server exposing 13 HR tools across onboarding, leave, ticketing, meetings and email. One natural-language instruction in Claude Desktop creates the employee record, opens the IT ticket, sends the welcome email and schedules the kickoff meeting.</p>
+        <div class="out"><a href="https://github.com/rs105/hr-agentic-assist">Code on GitHub</a></div>
+      </div>
+      <div class="panel">
+        <p class="cap">Tool surface</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Tools exposed</td><td class="num">13</td></tr>
+            <tr><td>Domains</td><td class="num">Onboarding · Leave · Tickets · Meetings · Email</td></tr>
+            <tr><td>Actions from one prompt</td><td class="num">4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div>
+        <h3>E-commerce assistant with intent routing</h3>
+        <p class="sub">2025 · Python, SQL, RAG, Llama 3.3 via Groq</p>
+        <p>Routes each question by intent: text-to-SQL over a live product database for inventory questions, RAG over FAQ documents for policy questions, and a separate path for small talk. A web-scraping pipeline builds the product catalog it queries.</p>
+        <div class="out"><a href="https://github.com/rs105/ecommerce-qa-chatbot">Code on GitHub</a></div>
+      </div>
+      <div class="panel">
+        <p class="cap">Routing</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Inventory questions</td><td class="num">Text-to-SQL</td></tr>
+            <tr><td>Policy questions</td><td class="num">RAG over FAQs</td></tr>
+            <tr><td>Everything else</td><td class="num">Small-talk path</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div>
+        <h3>LLM news research tool with source attribution</h3>
+        <p class="sub">Python, LangChain, embeddings</p>
+        <p>Load a set of news URLs, index them, and ask questions in plain language; answers come back with the sources they were drawn from. Built for news but the retrieval layer is domain-agnostic.</p>
+        <div class="out"><a href="https://github.com/rs105/LLM-Based-News-Research-Tool">Code on GitHub</a></div>
+      </div>
+      <div class="panel">
+        <p class="cap">What it does</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Input</td><td class="num">Article URLs</td></tr>
+            <tr><td>Retrieval</td><td class="num">Embeddings + vector index</td></tr>
+            <tr><td>Output</td><td class="num">Answer with cited sources</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div>
+        <h3>Binary classification app built around the decision, not the score</h3>
+        <p class="sub">Python, Streamlit, scikit-learn</p>
+        <p>An interactive app for binary classification that puts the false-positive / false-negative trade-off front and centre, so the threshold can be set for the case where one kind of mistake costs more than the other.</p>
+        <div class="out"><a href="https://github.com/rs105/Machine-Learning-Web-App-using-Streamlit">Code on GitHub</a></div>
+      </div>
+      <div class="panel">
+        <p class="cap">Focus</p>
+        <table class="results">
+          <tbody>
+            <tr><td>Models</td><td class="num">SVM · Logistic regression · Random forest</td></tr>
+            <tr><td>Shown</td><td class="num">Confusion matrix · ROC · PR curve</td></tr>
+            <tr><td>Decision</td><td class="num">Threshold by error cost</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ EDUCATION ============================ -->
+<section id="education">
+  <div class="wrap">
+    <h2>Education</h2>
+    <ul class="list">
+      <li>
+        <span class="when">2023 – 2025</span>
+        <div>
+          <h3>M.S. Business Analytics &amp; Data Science · GPA 4.0/4.0</h3>
+          <p class="where">Oklahoma State University · Stillwater, OK</p>
+          <p class="note">CIE Scholar (NSF I-Corps). Graduate Teaching Assistant, Venture Capital. Coursework in statistics, descriptive and predictive analytics, and advanced data wrangling.</p>
+        </div>
+      </li>
+      <li>
+        <span class="when">2017 – 2021</span>
+        <div>
+          <h3>B.Tech. Electronics &amp; Communication Engineering · GPA 3.6/4.0</h3>
+          <p class="where">SRM Institute of Science and Technology · Chennai, India</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ STACK ============================ -->
+<section id="stack">
+  <div class="wrap">
+    <h2>Stack</h2>
+    <div class="stack">
+      <p><b>LLM systems</b>Claude API, structured outputs, Pydantic, FastMCP, LangChain, LangSmith</p>
+      <p><b>Retrieval</b>pgvector, ChromaDB, BGE-M3, PubMedBERT, HNSW, Postgres full-text, RRF</p>
+      <p><b>Documents</b>Docling, OCR ingestion, ontology mapping (ChEBI, ECTO, ICD-10), RapidFuzz</p>
+      <p><b>Evaluation</b>LLM-as-judge, regression fixtures, gold-standard comparison, A/B and hypothesis testing</p>
+      <p><b>Data</b>Python (pandas, NumPy, scikit-learn), SQL, PostgreSQL, Snowflake, MongoDB, R</p>
+      <p><b>Apps &amp; BI</b>Plotly Dash, Streamlit, Power BI, Tableau, Looker</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year"></span> Romit Sen · Clemson, SC</span>
+    <span><a href="mailto:senromit7@gmail.com">senromit7@gmail.com</a></span>
+  </div>
+</footer>
+
+<script>
+/* theme toggle */
+(function () {
+  const root = document.documentElement, btn = document.getElementById('theme');
+  let saved = null; try { saved = localStorage.getItem('theme'); } catch (e) {}
+  if (saved === 'light') root.setAttribute('data-theme', 'light');
+  const label = () => btn.textContent = root.getAttribute('data-theme') === 'light' ? 'Dark' : 'Light';
+  label();
+  btn.addEventListener('click', () => {
+    const light = root.getAttribute('data-theme') === 'light';
+    if (light) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'light');
+    try { localStorage.setItem('theme', light ? 'dark' : 'light'); } catch (e) {}
+    label();
+  });
+})();
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* in-page links: scroll directly instead of relying on the host to handle #anchors */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const target = document.querySelector(a.getAttribute('href'));
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+/* Hero background: contour lines of a bumpy surface, with three optimizers descending it.
+   Purely decorative. Delete this block and the <canvas> in the hero for a plain background. */
+(function () {
+  const cv = document.getElementById('descent'), ctx = cv.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, dpr, levels = [], balls = [];
+  const f = (x, y) => 0.5 * (x * x + 0.6 * y * y) + 0.9 * Math.sin(1.7 * x) * Math.cos(1.3 * y) - 0.6 * Math.exp(-((x - 1.6) ** 2 + (y + 1.1) ** 2) * 1.2);
+  const grad = (x, y, h = 1e-3) => [(f(x + h, y) - f(x - h, y)) / (2 * h), (f(x, y + h) - f(x, y - h)) / (2 * h)];
+  const XR = [-3.2, 3.2], YR = [-2.2, 2.2];
+  const sx = x => (x - XR[0]) / (XR[1] - XR[0]) * W, sy = y => (y - YR[0]) / (YR[1] - YR[0]) * H;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const r = cv.getBoundingClientRect(); W = r.width; H = r.height;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    computeContours(); drawStatic();
+  }
+  function computeContours() {
+    const N = 110, M = Math.max(10, Math.round(N * H / W)), g = [];
+    let mn = Infinity, mx = -Infinity;
+    for (let j = 0; j <= M; j++) { g[j] = []; for (let i = 0; i <= N; i++) {
+      const v = f(XR[0] + (XR[1] - XR[0]) * i / N, YR[0] + (YR[1] - YR[0]) * j / M); g[j][i] = v; mn = Math.min(mn, v); mx = Math.max(mx, v); } }
+    levels = [];
+    const L = 14;
+    for (let k = 1; k < L; k++) {
+      const c = mn + (mx - mn) * (k / L) ** 1.6, segs = [];
+      for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) {
+        const a = g[j][i], b = g[j][i + 1], d = g[j + 1][i + 1], e = g[j + 1][i];
+        const idx = (a > c) | (b > c) << 1 | (d > c) << 2 | (e > c) << 3;
+        if (idx === 0 || idx === 15) continue;
+        const x0 = i / N * W, x1 = (i + 1) / N * W, y0 = j / M * H, y1 = (j + 1) / M * H;
+        const t = (p, q) => (c - p) / (q - p);
+        const top = [x0 + (x1 - x0) * t(a, b), y0], right = [x1, y0 + (y1 - y0) * t(b, d)],
+              bot = [x0 + (x1 - x0) * t(e, d), y1], left = [x0, y0 + (y1 - y0) * t(a, e)];
+        const T = { 1:[left,top],2:[top,right],3:[left,right],4:[right,bot],5:[left,top,right,bot],6:[top,bot],7:[left,bot],
+                    8:[bot,left],9:[top,bot],10:[top,left,bot,right],11:[right,bot],12:[right,left],13:[top,right],14:[left,top] }[idx];
+        for (let s = 0; s < T.length; s += 2) segs.push([T[s], T[s + 1]]);
+      }
+      levels.push({ c, segs, k });
+    }
+  }
+  const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  function drawStatic() {
+    ctx.clearRect(0, 0, W, H);
+    const ink = css('--ink');
+    levels.forEach(l => {
+      ctx.beginPath();
+      l.segs.forEach(([p, q]) => { ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); });
+      ctx.strokeStyle = ink; ctx.globalAlpha = 0.07 + 0.05 * (1 - l.k / 14); ctx.lineWidth = 1; ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+  }
+  const spawn = () => ({ x: XR[0] + Math.random() * (XR[1] - XR[0]), y: YR[0] + Math.random() * (YR[1] - YR[0]), vx: 0, vy: 0, trail: [], age: 0, lr: 0.035 + Math.random() * 0.02 });
+  for (let i = 0; i < 3; i++) balls.push(spawn());
+  function tick(b) { const [gx, gy] = grad(b.x, b.y); b.vx = 0.86 * b.vx - b.lr * gx; b.vy = 0.86 * b.vy - b.lr * gy; b.x += b.vx; b.y += b.vy; b.age++; b.trail.push([b.x, b.y]); if (b.trail.length > 90) b.trail.shift(); }
+  function step() {
+    drawStatic();
+    const acc = css('--accent'), acc2 = css('--accent-2');
+    balls.forEach((b, i) => {
+      tick(b);
+      const speed = Math.hypot(b.vx, b.vy);
+      if (b.age > 260 && speed < 1e-3 || b.age > 900 || b.x < XR[0] || b.x > XR[1] || b.y < YR[0] || b.y > YR[1]) balls[i] = spawn();
+      const col = i % 2 ? acc2 : acc;
+      ctx.beginPath();
+      b.trail.forEach(([x, y], n) => { n ? ctx.lineTo(sx(x), sy(y)) : ctx.moveTo(sx(x), sy(y)); });
+      ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.55; ctx.stroke();
+      ctx.beginPath(); ctx.arc(sx(b.x), sy(b.y), 3.5, 0, Math.PI * 2); ctx.fillStyle = col; ctx.globalAlpha = 1; ctx.fill();
+    });
+    if (!reduce) requestAnimationFrame(step);
+  }
+  window.addEventListener('resize', resize);
+  new MutationObserver(drawStatic).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  resize();
+  if (reduce) for (let k = 0; k < 400; k++) balls.forEach(tick);
+  step();
+})();
+</script>
+</body>
+</html>
