@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Romit Sen</title>
+<meta name="description" content="Romit Sen, Applied AI Engineer. Production LLM extraction and retrieval systems that turn dense documents into structured, validated data.">
+<meta property="og:title" content="Romit Sen — Applied AI Engineer">
+<meta property="og:description" content="Production LLM extraction and retrieval systems that turn dense documents into structured, validated data.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0F1115;
+    --bg-2: #15181E;
+    --ink: #ECEDEF;
+    --ink-2: #B6BAC2;
+    --muted: #7C828D;
+    --rule: #23272F;
+    --accent: #E8C170;
+    --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 1.0625rem; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  img { max-width: 100%; height: auto; display: block; }
+  ::selection { background: var(--accent); color: #1A1300; }
+
+  .wrap { max-width: 64rem; margin: 0 auto; padding: 0 1.75rem; }
+  .narrow { max-width: 42rem; }
+
+  /* ---------- nav ---------- */
+  .nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(12px); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 4.25rem; }
+  .brand { font-family: var(--serif); font-size: 1.45rem; letter-spacing: 0.005em; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2rem; font-size: 0.95rem; }
+  .nav li a { color: var(--muted); position: relative; padding-bottom: .2rem; }
+  .nav li a:hover, .nav li a[aria-current="page"] { color: var(--ink); }
+  .nav li a[aria-current="page"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--accent); }
+  @media (max-width: 40rem) { .nav ul { gap: 1.25rem; font-size: 0.9rem; } }
+
+  /* ---------- pages ---------- */
+  .page { display: none; padding: 5rem 0 6rem; animation: fade .35s ease-out; }
+  .page.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .page { animation: none; } }
+
+  .eyebrow { color: var(--muted); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 1.25rem; }
+  .statement { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 6.2vw, 4.6rem); line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 2rem; max-width: 20ch; }
+  .statement em { font-style: italic; color: var(--accent); }
+  .lede { font-size: 1.25rem; color: var(--ink-2); max-width: 36rem; margin: 0 0 2.5rem; }
+  .row-links { display: flex; flex-wrap: wrap; gap: 1.75rem; font-size: 0.95rem; color: var(--muted); }
+  .row-links a { border-bottom: 1px solid var(--rule); padding-bottom: .15rem; }
+  .row-links a:hover { border-color: var(--accent); }
+
+  h2.section { font-family: var(--serif); font-weight: 400; font-size: 2rem; margin: 0 0 1.75rem; letter-spacing: -0.005em; }
+  .home-work { margin-top: 7rem; }
+
+  /* work list */
+  .worklist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .worklist li { border-bottom: 1px solid var(--rule); }
+  .worklist a { display: grid; grid-template-columns: 3rem 1fr auto; gap: 1.5rem; align-items: baseline; padding: 1.5rem 0; }
+  .worklist .n { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .worklist .t { font-family: var(--serif); font-size: 1.7rem; line-height: 1.15; transition: transform .25s ease; }
+  .worklist .s { display: block; font-family: var(--sans); font-size: 0.95rem; color: var(--muted); margin-top: .35rem; }
+  .worklist .y { color: var(--muted); font-size: 0.9rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .worklist a:hover .t { transform: translateX(6px); }
+  .worklist a:hover .y { color: var(--accent); }
+  .more { color: var(--muted); margin: 1.75rem 0 0; font-size: 0.95rem; }
+  @media (max-width: 40rem) { .worklist a { grid-template-columns: 2.25rem 1fr; } .worklist .y { display: none; } .worklist .t { font-size: 1.4rem; } }
+
+  /* case study */
+  .back { display: inline-block; color: var(--muted); font-size: 0.9rem; margin-bottom: 3rem; }
+  .back::before { content: "←"; margin-right: .5rem; }
+  .case h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.1rem, 4.5vw, 3.4rem); line-height: 1.08; margin: 0 0 1.5rem; max-width: 22ch; letter-spacing: -0.01em; }
+  .case .summary { font-size: 1.25rem; color: var(--ink-2); max-width: 38rem; margin: 0 0 3.5rem; }
+  .case-grid { display: grid; grid-template-columns: 1fr 15rem; gap: 4rem; align-items: start; }
+  .facts { position: sticky; top: 6rem; border-top: 1px solid var(--rule); font-size: 0.93rem; }
+  .facts dt { color: var(--muted); font-size: 0.78rem; letter-spacing: .08em; text-transform: uppercase; padding-top: 1rem; }
+  .facts dd { margin: .25rem 0 1rem; color: var(--ink-2); }
+  .facts dd.big { font-family: var(--serif); font-size: 1.9rem; color: var(--ink); line-height: 1.1; }
+  .body h2 { font-family: var(--sans); font-weight: 600; font-size: 0.85rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 2.75rem 0 .75rem; }
+  .body h2:first-child { margin-top: 0; }
+  .body p { margin: 0 0 1.1rem; color: var(--ink-2); max-width: 38rem; }
+  .body ul { margin: 0 0 1.1rem; padding-left: 1.1rem; color: var(--ink-2); max-width: 38rem; }
+  .body li { margin-bottom: .5rem; }
+  .body strong { color: var(--ink); font-weight: 600; }
+  .body a { border-bottom: 1px solid var(--rule); }
+  .body a:hover { border-color: var(--accent); }
+  .next { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+  .next span { display: block; color: var(--muted); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .5rem; }
+  .next a { font-family: var(--serif); font-size: 1.7rem; }
+  @media (max-width: 52rem) { .case-grid { grid-template-columns: 1fr; gap: 2.5rem; } .facts { position: static; } }
+
+  /* about */
+  .about-grid { display: grid; grid-template-columns: 1fr 17rem; gap: 4rem; align-items: start; }
+  .portrait { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 85%; border-radius: 6px; background: var(--bg-2); }
+  .about .body p { color: var(--ink-2); }
+  .stack { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 2rem 3rem; margin-top: 1.25rem; }
+  .stack h3 { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 .75rem; font-weight: 600; }
+  .stack ul { list-style: none; margin: 0; padding: 0; }
+  .stack li { display: flex; align-items: center; gap: .7rem; padding: .45rem 0; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: .98rem; }
+  .stack li:last-child { border-bottom: 1px solid var(--rule); }
+  .stack img { width: 1.1rem; height: 1.1rem; flex: none; opacity: .8; transition: opacity .2s, filter .2s; }
+  .stack li:hover img { opacity: 1; filter: brightness(1.6); }
+  .stack li:hover span { color: var(--ink); }
+  .edu { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .edu li { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); font-size: .98rem; }
+  .edu .when { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .edu .what { color: var(--ink); }
+  .edu .where { color: var(--muted); display: block; font-size: .93rem; }
+  @media (max-width: 52rem) { .about-grid { grid-template-columns: 1fr; } .portrait { width: 12rem; } .edu li { grid-template-columns: 1fr; gap: .1rem; } }
+
+  /* resume */
+  .resume-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.25rem 2rem; margin-bottom: 2.5rem; }
+  .resume-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .pill { display: inline-block; padding: .6rem 1.1rem; border: 1px solid var(--rule); border-radius: 999px; font-size: .95rem; color: var(--ink); }
+  .pill:hover { border-color: var(--accent); color: var(--accent); }
+  .pill.primary { background: var(--accent); border-color: var(--accent); color: #1A1300; font-weight: 600; }
+  .pill.primary:hover { filter: brightness(1.07); color: #1A1300; }
+  .pdf-pages { max-width: 52rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
+  .pdf-page { display: block; width: 100%; height: auto; background: #fff; border-radius: 4px; box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+  .pdf-fallback { color: var(--muted); text-align: center; padding: 3rem 0; }
+  .pdf-fallback a { color: var(--accent); }
+
+  /* footer */
+  footer { border-top: 1px solid var(--rule); padding: 3rem 0 4rem; color: var(--muted); font-size: 0.92rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
+  footer .big { font-family: var(--serif); font-size: 1.6rem; color: var(--ink); }
+  footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.75rem; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#/">Romit Sen</a>
+    <ul>
+      <li><a href="#/work" data-nav="work">Work</a></li>
+      <li><a href="#/about" data-nav="about">About</a></li>
+      <li><a href="#/resume" data-nav="resume">Resume</a></li>
+      <li><a href="mailto:senromit7@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<!-- ========================= HOME ========================= -->
+<section class="page" data-page="home" data-title="Romit Sen">
+  <div class="wrap">
+    <p class="eyebrow">Applied AI Engineer · MindSpec</p>
+    <h1 class="statement">I turn dense documents into <em>structured data</em> that people can trust.</h1>
+    <p class="lede">I build production LLM extraction and retrieval systems. Right now that's neuroscience literature at MindSpec: long papers with dense tables and figures, turned into schema-validated records with the evaluation tooling to prove they're right.</p>
+    <div class="row-links">
+      <a href="https://github.com/rs105">GitHub</a>
+      <a href="https://www.linkedin.com/in/senromit">LinkedIn</a>
+      <a href="mailto:senromit7@gmail.com">senromit7@gmail.com</a>
+    </div>
+
+    <div class="home-work">
+      <h2 class="section">Selected work</h2>
+      <ol class="worklist">
+        <li><a href="#/work/evidence-extraction"><span class="n">01</span><span class="t">Structured evidence extraction from scientific papers<span class="s">MindSpec · LLM extraction, schema validation</span></span><span class="y">2026</span></a></li>
+        <li><a href="#/work/hybrid-retrieval"><span class="n">02</span><span class="t">Hybrid retrieval with auditing and regression safety<span class="s">MindSpec · pgvector, BGE-M3, RRF</span></span><span class="y">2026</span></a></li>
+        <li><a href="#/work/rag-v1"><span class="n">03</span><span class="t">First-generation RAG pipeline and ontology normalization<span class="s">MindSpec · Docling, PubMedBERT, RapidFuzz</span></span><span class="y">2025</span></a></li>
+        <li><a href="#/work/hr-assistant"><span class="n">04</span><span class="t">An HR assistant that acts, not answers<span class="s">Independent · FastMCP, Claude Desktop</span></span><span class="y">2025</span></a></li>
+        <li><a href="#/work/athlete-dashboards"><span class="n">05</span><span class="t">Replacing forms with dashboards for an athlete training facility<span class="s">Bear Cognition · Plotly Dash, Snowflake</span></span><span class="y">2024</span></a></li>
+      </ol>
+      <p class="more">More available on request.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= WORK INDEX ========================= -->
+<section class="page" data-page="work" data-title="Work — Romit Sen">
+  <div class="wrap">
+    <p class="eyebrow">Work</p>
+    <h1 class="statement" style="font-size:clamp(2rem,4.5vw,3.2rem)">Six things I've built, and what each one changed.</h1>
+    <ol class="worklist" style="margin-top:3rem">
+      <li><a href="#/work/evidence-extraction"><span class="n">01</span><span class="t">Structured evidence extraction from scientific papers<span class="s">MindSpec · LLM extraction, schema validation</span></span><span class="y">2026</span></a></li>
+      <li><a href="#/work/hybrid-retrieval"><span class="n">02</span><span class="t">Hybrid retrieval with auditing and regression safety<span class="s">MindSpec · pgvector, BGE-M3, RRF</span></span><span class="y">2026</span></a></li>
+      <li><a href="#/work/rag-v1"><span class="n">03</span><span class="t">First-generation RAG pipeline and ontology normalization<span class="s">MindSpec · Docling, PubMedBERT, RapidFuzz</span></span><span class="y">2025</span></a></li>
+      <li><a href="#/work/hr-assistant"><span class="n">04</span><span class="t">An HR assistant that acts, not answers<span class="s">Independent · FastMCP, Claude Desktop</span></span><span class="y">2025</span></a></li>
+      <li><a href="#/work/ecommerce-assistant"><span class="n">05</span><span class="t">A store assistant that knows when to query and when to read<span class="s">Independent · Text-to-SQL, RAG, Llama 3.3</span></span><span class="y">2025</span></a></li>
+      <li><a href="#/work/athlete-dashboards"><span class="n">06</span><span class="t">Replacing forms with dashboards for an athlete training facility<span class="s">Bear Cognition · Plotly Dash, Snowflake</span></span><span class="y">2024</span></a></li>
+    </ol>
+    <p class="more">More available on request.</p>
+  </div>
+</section>
+
+<!-- ========================= CASE: EVIDENCE EXTRACTION ========================= -->
+<section class="page case" data-page="work/evidence-extraction" data-title="Structured evidence extraction — Romit Sen">
+  <div class="wrap">
+    <a class="back" href="#/work">All work</a>
+    <p class="eyebrow">MindSpec · 2026 · Applied AI Engineer</p>
+    <h1>Structured evidence extraction from scientific papers</h1>
+    <p class="summary">Long neuroscience papers, tables and figures included, turned into records in a 167-field, 9-table evidence schema, validated on the way in. Curation that took a person about three hours per paper now takes about 45 minutes plus a reviewer's sign-off.</p>
+    <div class="case-grid">
+      <div class="body">
+        <h2>Context</h2>
+        <p>MindSpec builds a structured evidence base from the neuroscience literature. Every paper has to be read, its findings pulled out, and each finding placed into a schema so it can be compared with findings from other papers. Doing this by hand is slow and inconsistent, and the schema itself keeps evolving as the science does.</p>
+
+        <h2>Problem</h2>
+        <p>The first-generation pipeline (<a href="#/work/rag-v1">case 03</a>) proved the idea but struggled with exactly the things that make scientific papers hard: dense tables and figures that garble when parsed, output that drifts from the schema, and duplicate records creeping in across hundreds of documents.</p>
+
+        <h2>Approach</h2>
+        <ul>
+          <li><strong>Structured outputs, not free text.</strong> Rebuilt extraction around Claude's structured outputs with Pydantic models as the contract. Every record is validated against the 167-field schema before it's stored; anything that doesn't fit is rejected, not silently coerced.</li>
+          <li><strong>Provenance-aware deduplication.</strong> Each record carries where it came from, so the same finding reported in two places is merged rather than double-counted.</li>
+          <li><strong>Automated vocabulary checks.</strong> Terms are checked against controlled vocabularies at extraction time instead of at review time.</li>
+          <li><strong>Regression fixtures and observability.</strong> A fixed set of gold-standard papers runs on every change, traced in LangSmith, so a prompt or model change that degrades a field shows up before it ships.</li>
+        </ul>
+
+        <h2>Result</h2>
+        <p>Populated the schema across 10+ gold-standard publications with reviewer sign-off. Per-paper curation dropped from about 3 hours of manual work to about 45 minutes plus review. The reviewer stays in the loop by design; the pipeline's job is to make their time count.</p>
+
+        <div class="next"><span>Next</span><a href="#/work/hybrid-retrieval">Hybrid retrieval with auditing and regression safety</a></div>
+      </div>
+      <dl class="facts">
+        <dt>Role</dt><dd>Design and implementation</dd>
+        <dt>Per-paper curation</dt><dd class="big">3 h → 45 min</dd>
+        <dt>Schema</dt><dd>167 fields, 9 tables</dd>
+        <dt>Validated against</dt><dd>10+ gold-standard papers</dd>
+        <dt>Stack</dt><dd>Claude structured outputs, Pydantic, PostgreSQL, LangSmith</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CASE: HYBRID RETRIEVAL ========================= -->
+<section class="page case" data-page="work/hybrid-retrieval" data-title="Hybrid retrieval — Romit Sen">
+  <div class="wrap">
+    <a class="back" href="#/work">All work</a>
+    <p class="eyebrow">MindSpec · 2026 · Applied AI Engineer</p>
+    <h1>Hybrid retrieval with auditing and regression safety</h1>
+    <p class="summary">A retrieval layer that combines dense and sparse search over the evidence base, with an LLM-as-judge audit and regression fixtures so that a change to the index or the prompts can't quietly make results worse.</p>
+    <div class="case-grid">
+      <div class="body">
+        <h2>Problem</h2>
+        <p>Scientific vocabulary is exact. A pure embedding search finds things that are semantically close but misses precise terms, identifiers and rare entities; a pure keyword search does the opposite. Neither alone is trustworthy enough to sit under an evidence base, and any retrieval system that isn't measured will degrade the first time someone tunes it.</p>
+
+        <h2>Approach</h2>
+        <ul>
+          <li><strong>Dense plus sparse.</strong> BGE-M3 embeddings in pgvector with an HNSW index for semantic matches; PostgreSQL full-text search for exact terms. Both run on the same database, so there's one system to operate.</li>
+          <li><strong>Reciprocal Rank Fusion.</strong> The two result lists are merged with RRF rather than a tuned weighting, which is robust and has nothing to overfit.</li>
+          <li><strong>LLM-as-judge auditing.</strong> A model grades retrieved passages for relevance on a sample, giving a continuous read on quality without a human labelling every query.</li>
+          <li><strong>Regression fixtures.</strong> A fixed set of queries with known-good results runs on every change. If a fixture breaks, the change doesn't ship.</li>
+          <li><strong>Observability.</strong> Every query is traced in LangSmith, so a bad result can be followed back to the passage, the embedding and the fusion step that produced it.</li>
+        </ul>
+
+        <h2>Result</h2>
+        <p>The retrieval layer that the extraction pipeline and its reviewers depend on, with change safety built in rather than bolted on. Vocabulary checks and provenance-aware deduplication sit in front of it so that what gets retrieved is clean.</p>
+
+        <div class="next"><span>Next</span><a href="#/work/rag-v1">First-generation RAG pipeline and ontology normalization</a></div>
+      </div>
+      <dl class="facts">
+        <dt>Role</dt><dd>Design and implementation</dd>
+        <dt>Dense</dt><dd>BGE-M3 · HNSW</dd>
+        <dt>Sparse</dt><dd>PostgreSQL full-text</dd>
+        <dt>Fusion</dt><dd>Reciprocal Rank Fusion</dd>
+        <dt>Quality</dt><dd>LLM-as-judge audit, regression fixtures</dd>
+        <dt>Tracing</dt><dd>LangSmith</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CASE: RAG V1 ========================= -->
+<section class="page case" data-page="work/rag-v1" data-title="First-generation RAG pipeline — Romit Sen">
+  <div class="wrap">
+    <a class="back" href="#/work">All work</a>
+    <p class="eyebrow">MindSpec · 2025–2026 · AI Research Intern</p>
+    <h1>First-generation RAG pipeline and ontology normalization</h1>
+    <p class="summary">The version that proved the idea: 50+ biomedical PDFs converted into 4,400 structured records, and an exposure-term normalizer that maps free text to standard ontologies with about 91% resolved automatically.</p>
+    <div class="case-grid">
+      <div class="body">
+        <h2>Problem</h2>
+        <p>Turn a shelf of biomedical PDFs into records a database can hold, complete with the statistical details that make a finding usable: confidence intervals and the covariates each estimate was adjusted for. Then make the exposure terms in those records comparable across papers, when every author names the same thing differently.</p>
+
+        <h2>Approach</h2>
+        <ul>
+          <li><strong>Parsing.</strong> Docling for document structure, PubMedBERT embeddings for retrieval, pgvector for storage, Claude for extraction.</li>
+          <li><strong>Context limits.</strong> Papers that didn't fit in one pass went through a two-pass fallback rather than being truncated.</li>
+          <li><strong>Normalization ladder.</strong> Exposure terms tried exact match first, then token match, then RapidFuzz fuzzy match. Each step only ran if the previous one failed.</li>
+          <li><strong>Expert routing.</strong> Terms that no step could resolve with confidence went to a reviewer instead of being guessed. Resolved terms were linked to ChEBI, ECTO and ICD-10.</li>
+        </ul>
+
+        <h2>Result</h2>
+        <p>4,400 structured records from 50+ source PDFs, including confidence intervals and adjustment metadata. About 91% of exposure terms canonicalized without human input. The pipeline was later rebuilt (<a href="#/work/evidence-extraction">case 01</a>) around what this version taught: where parsing breaks, where schemas drift, and where duplicates come from.</p>
+
+        <div class="next"><span>Next</span><a href="#/work/hr-assistant">An HR assistant that acts, not answers</a></div>
+      </div>
+      <dl class="facts">
+        <dt>Role</dt><dd>Built the pipeline and the normalizer</dd>
+        <dt>Records produced</dt><dd class="big">4,400</dd>
+        <dt>Source documents</dt><dd>50+ PDFs</dd>
+        <dt>Auto-canonicalized</dt><dd class="big">~91%</dd>
+        <dt>Ontologies</dt><dd>ChEBI · ECTO · ICD-10</dd>
+        <dt>Stack</dt><dd>Docling, PubMedBERT, pgvector, Claude, RapidFuzz</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CASE: HR ASSISTANT ========================= -->
+<section class="page case" data-page="work/hr-assistant" data-title="HR assistant over MCP — Romit Sen">
+  <div class="wrap">
+    <a class="back" href="#/work">All work</a>
+    <p class="eyebrow">Independent · 2025</p>
+    <h1>An HR assistant that acts, not answers</h1>
+    <p class="summary">An MCP server that gives Claude Desktop 13 HR tools. One plain-English instruction onboards a new hire end to end: the record is created, the IT ticket opened, the welcome email sent, the kickoff meeting scheduled.</p>
+    <div class="case-grid">
+      <div class="body">
+        <h2>Problem</h2>
+        <p>Most "AI assistants" for internal processes answer questions about the process. The useful version does the process. Onboarding is a good test: four systems, a fixed order, and a lot of copy-paste between them.</p>
+
+        <h2>Approach</h2>
+        <ul>
+          <li><strong>Tools, not prompts.</strong> Built an MCP server with FastMCP exposing 13 tools across onboarding, leave, ticketing, meetings and email. Each tool does one thing and reports back what it did.</li>
+          <li><strong>The model plans, the tools act.</strong> Claude Desktop reads the instruction, decides which tools to call and in what order, and calls them. The server never guesses intent; it just executes well-defined actions.</li>
+          <li><strong>One prompt, four actions.</strong> "Onboard Priya as a data analyst starting Monday" becomes: create employee record, open IT ticket, send welcome email, schedule kickoff.</li>
+        </ul>
+
+        <h2>Result</h2>
+        <p>A working end-to-end agent over a standard protocol, so the same tools work with any MCP-capable client. Code is public.</p>
+        <p><a href="https://github.com/rs105/hr-agentic-assist">View the code on GitHub</a></p>
+
+        <div class="next"><span>Next</span><a href="#/work/ecommerce-assistant">A store assistant that knows when to query and when to read</a></div>
+      </div>
+      <dl class="facts">
+        <dt>Tools exposed</dt><dd class="big">13</dd>
+        <dt>Domains</dt><dd>Onboarding, leave, ticketing, meetings, email</dd>
+        <dt>Client</dt><dd>Claude Desktop</dd>
+        <dt>Stack</dt><dd>Python, FastMCP, Claude</dd>
+        <dt>Code</dt><dd><a href="https://github.com/rs105/hr-agentic-assist">github.com/rs105/hr-agentic-assist</a></dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CASE: E-COMMERCE ASSISTANT ========================= -->
+<section class="page case" data-page="work/ecommerce-assistant" data-title="E-commerce assistant — Romit Sen">
+  <div class="wrap">
+    <a class="back" href="#/work">All work</a>
+    <p class="eyebrow">Independent · 2025</p>
+    <h1>A store assistant that knows when to query and when to read</h1>
+    <p class="summary">A chatbot that classifies each question by intent and sends it down the right path: text-to-SQL against a live product database for stock and price questions, retrieval over policy documents for everything about returns and shipping.</p>
+    <div class="case-grid">
+      <div class="body">
+        <h2>Problem</h2>
+        <p>"Do you have this in size 10?" and "What's your return policy?" look alike to a chatbot and are answered from completely different sources. Sending both to a single RAG index gets the first one wrong; sending both to SQL gets the second one wrong.</p>
+
+        <h2>Approach</h2>
+        <ul>
+          <li><strong>Intent routing first.</strong> Each message is classified before anything else happens: inventory question, policy question, or small talk.</li>
+          <li><strong>Text-to-SQL for facts.</strong> Inventory questions are turned into SQL against the product database, so the answer is the current truth, not an embedding's memory of it.</li>
+          <li><strong>RAG for policy.</strong> Policy questions retrieve from FAQ documents and answer with the source in hand.</li>
+          <li><strong>A catalog to query.</strong> A web-scraping pipeline builds and refreshes the product database the SQL path runs against.</li>
+        </ul>
+
+        <h2>Result</h2>
+        <p>A working assistant on Llama 3.3 via Groq, with the routing logic that stops factual questions being answered from prose. Code is public.</p>
+        <p><a href="https://github.com/rs105/ecommerce-qa-chatbot">View the code on GitHub</a></p>
+
+        <div class="next"><span>Next</span><a href="#/work/athlete-dashboards">Replacing forms with dashboards for an athlete training facility</a></div>
+      </div>
+      <dl class="facts">
+        <dt>Paths</dt><dd>Text-to-SQL · RAG · small talk</dd>
+        <dt>Model</dt><dd>Llama 3.3 via Groq</dd>
+        <dt>Stack</dt><dd>Python, SQL, RAG</dd>
+        <dt>Code</dt><dd><a href="https://github.com/rs105/ecommerce-qa-chatbot">github.com/rs105/ecommerce-qa-chatbot</a></dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CASE: ATHLETE DASHBOARDS ========================= -->
+<section class="page case" data-page="work/athlete-dashboards" data-title="Athlete training dashboards — Romit Sen">
+  <div class="wrap">
+    <a class="back" href="#/work">All work</a>
+    <p class="eyebrow">Bear Cognition · 2024 · Data Analyst Intern</p>
+    <h1>Replacing forms with dashboards for an athlete training facility</h1>
+    <p class="summary">Nine Plotly Dash applications that replaced manual JotForm workflows for a facility training Olympic and professional athletes, writing directly to Snowflake. They were still in production more than a year after I left.</p>
+    <div class="case-grid">
+      <div class="body">
+        <h2>Problem</h2>
+        <p>Data about athletes was being collected through forms and moved around by hand. It was slow, error-prone, and disconnected from the warehouse where it needed to end up.</p>
+
+        <h2>Approach</h2>
+        <ul>
+          <li><strong>Write at the source.</strong> Each Dash application captured data and wrote it straight to Snowflake, removing the manual step entirely.</li>
+          <li><strong>Nine apps, not one.</strong> Each workflow got its own focused application rather than one sprawling tool, which is why they survived staff turnover and were still in use 12+ months later.</li>
+          <li><strong>A second prototype.</strong> In the same internship, built a reusable OCR ingestion and analytics tool for LTL shipping companies: receipts and orders parsed into a Dash AG Grid dashboard backed by MongoDB.</li>
+        </ul>
+
+        <h2>Result</h2>
+        <p>Nine applications in daily use, and the durability that matters most for internal tools: they kept working after the person who built them was gone.</p>
+
+        <div class="next"><span>Back to</span><a href="#/work/evidence-extraction">Structured evidence extraction from scientific papers</a></div>
+      </div>
+      <dl class="facts">
+        <dt>Applications shipped</dt><dd class="big">9</dd>
+        <dt>Still in production</dt><dd class="big">12+ months</dd>
+        <dt>Stack</dt><dd>Plotly Dash, Snowflake, Dash AG Grid, MongoDB</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= RESUME ========================= -->
+<section class="page" data-page="resume" data-title="Resume — Romit Sen">
+  <div class="wrap">
+    <p class="eyebrow">Resume</p>
+    <div class="resume-head">
+      <h1 class="statement" style="font-size:clamp(2rem,4.5vw,3.2rem);margin:0">Resume</h1>
+      <div class="resume-actions">
+        <a class="pill primary" href="resume.pdf" download="Romit_Sen_Resume.pdf">Download PDF</a>
+        <a class="pill" href="resume.pdf" target="_blank" rel="noopener">Open in new tab</a>
+      </div>
+    </div>
+    <div id="pdf-pages" class="pdf-pages"><p class="pdf-fallback">Loading resume…</p></div>
+  </div>
+</section>
+
+<!-- ========================= ABOUT ========================= -->
+<section class="page about" data-page="about" data-title="About — Romit Sen">
+  <div class="wrap">
+    <p class="eyebrow">About</p>
+    <h1 class="statement" style="font-size:clamp(2rem,4.5vw,3.2rem)">Hello, I'm Romit.</h1>
+    <div class="about-grid" style="margin-top:2.5rem">
+      <div class="body">
+        <p>I'm an applied AI engineer at MindSpec in McLean, Virginia, working from Clemson, South Carolina. I build the systems that read scientific literature so people don't have to read all of it: LLM extraction against strict schemas, hybrid retrieval, and the evaluation harnesses that make both trustworthy.</p>
+        <p>I came to this through data. A master's in business analytics and data science at Oklahoma State, an internship building production dashboards for a sports-science company, and before that QA and test automation at Tata Consultancy Services, which taught me more about how software fails than any course did. The thread through all of it is the unglamorous middle of the pipeline: parsing, validation, deduplication, the parts that decide whether the output can be trusted.</p>
+        <p>I'm most interested in applied AI and research engineering roles where I can own the whole loop, from raw documents to a result someone will act on.</p>
+
+        <h2 style="margin-top:3rem">Tech stack</h2>
+        <div class="stack">
+          <div class="stack-group">
+            <h3>Languages &amp; data</h3>
+            <ul>
+              <li><img src="https://cdn.simpleicons.org/python/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Python</span></li>
+              <li><img src="https://cdn.simpleicons.org/postgresql/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>SQL / PostgreSQL</span></li>
+              <li><img src="https://cdn.simpleicons.org/r/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>R</span></li>
+              <li><img src="https://cdn.simpleicons.org/pandas/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>pandas</span></li>
+              <li><img src="https://cdn.simpleicons.org/numpy/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>NumPy</span></li>
+              <li><img src="https://cdn.simpleicons.org/scikitlearn/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>scikit-learn</span></li>
+              <li><img src="https://cdn.simpleicons.org/snowflake/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Snowflake</span></li>
+              <li><img src="https://cdn.simpleicons.org/mongodb/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>MongoDB</span></li>
+            </ul>
+          </div>
+          <div class="stack-group">
+            <h3>LLM &amp; retrieval</h3>
+            <ul>
+              <li><img src="https://cdn.simpleicons.org/claude/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Claude API</span></li>
+              <li><img src="https://cdn.simpleicons.org/pydantic/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Pydantic</span></li>
+              <li><img src="https://cdn.simpleicons.org/langchain/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>LangChain / LangSmith</span></li>
+              <li><img src="https://cdn.simpleicons.org/modelcontextprotocol/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>MCP / FastMCP</span></li>
+              <li><img src="https://cdn.simpleicons.org/huggingface/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Hugging Face</span></li>
+              <li><img src="https://cdn.simpleicons.org/postgresql/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>pgvector</span></li>
+              <li><span>ChromaDB</span></li>
+              <li><span>BGE-M3 · PubMedBERT</span></li>
+            </ul>
+          </div>
+          <div class="stack-group">
+            <h3>Visualisation &amp; apps</h3>
+            <ul>
+              <li><img src="https://cdn.simpleicons.org/powerbi/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Power BI</span></li>
+              <li><img src="https://cdn.simpleicons.org/tableau/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Tableau</span></li>
+              <li><img src="https://cdn.simpleicons.org/looker/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Looker</span></li>
+              <li><img src="https://cdn.simpleicons.org/plotly/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Plotly Dash</span></li>
+              <li><img src="https://cdn.simpleicons.org/streamlit/7C828D" alt="" loading="lazy" onerror="this.remove()"><span>Streamlit</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 style="margin-top:3rem">Education</h2>
+        <ul class="edu">
+          <li><span class="when">2023 – 2025</span><span><span class="what">M.S. Business Analytics &amp; Data Science, GPA 4.0</span><span class="where">Oklahoma State University · CIE Scholar (NSF I-Corps) · Graduate TA, Venture Capital</span></span></li>
+          <li><span class="when">2017 – 2021</span><span><span class="what">B.Tech. Electronics &amp; Communication Engineering, GPA 3.6</span><span class="where">SRM Institute of Science and Technology, Chennai</span></span></li>
+        </ul>
+
+        <h2 style="margin-top:3rem">Elsewhere</h2>
+        <div class="row-links">
+          <a href="resume.pdf" download="Romit_Sen_Resume.pdf">Resume (PDF)</a>
+          <a href="https://github.com/rs105">GitHub</a>
+          <a href="https://www.linkedin.com/in/senromit">LinkedIn</a>
+          <a href="mailto:senromit7@gmail.com">senromit7@gmail.com</a>
+        </div>
+      </div>
+      <!-- photo.jpg next to index.html; falls back to GitHub avatar if missing -->
+      <img class="portrait" src="photo.jpg" alt="Romit Sen" width="272" height="272"
+           onerror="this.onerror=null;this.src='https://avatars.githubusercontent.com/u/35870133?v=4'">
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="big">Let's talk.</div>
+      <a href="mailto:senromit7@gmail.com">senromit7@gmail.com</a>
+    </div>
+    <ul>
+      <li><a href="https://github.com/rs105">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/senromit">LinkedIn</a></li>
+      <li><a href="#/resume">Resume</a></li>
+    </ul>
+    <div>© <span id="year"></span> Romit Sen · Clemson, SC</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* Resume: render resume.pdf onto the page with PDF.js (loaded only when the Resume page is opened).
+     Works the same on desktop and phones. If anything fails, shows open/download links instead. */
+  let resumeLoaded = false;
+  function loadResume() {
+    if (resumeLoaded) return;
+    resumeLoaded = true;
+    const box = document.getElementById('pdf-pages');
+    const fail = () => {
+      box.innerHTML = '<p class="pdf-fallback">The preview couldn\u2019t load here. <a href="resume.pdf" target="_blank" rel="noopener">Open the PDF</a> or <a href="resume.pdf" download="Romit_Sen_Resume.pdf">download it</a>.</p>';
+    };
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onerror = fail;
+    s.onload = async () => {
+      try {
+        const lib = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
+        lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const pdf = await lib.getDocument('resume.pdf').promise;
+        box.innerHTML = '';
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const width = Math.max(box.clientWidth, 600);
+        for (let n = 1; n <= pdf.numPages; n++) {
+          const page = await pdf.getPage(n);
+          const base = page.getViewport({ scale: 1 });
+          const vp = page.getViewport({ scale: (width / base.width) * dpr });
+          const c = document.createElement('canvas');
+          c.className = 'pdf-page';
+          c.width = vp.width;
+          c.height = vp.height;
+          c.setAttribute('role', 'img');
+          c.setAttribute('aria-label', 'Resume, page ' + n + ' of ' + pdf.numPages);
+          box.appendChild(c);
+          await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+        }
+      } catch (e) {
+        fail();
+      }
+    };
+    document.head.appendChild(s);
+  }
+
+  /* Router: pages live in this file as <section data-page="...">.
+     The URL hash picks which one is shown: #/  #/work  #/work/evidence-extraction  #/about  */
+  const pages = [...document.querySelectorAll('.page')];
+  const navLinks = [...document.querySelectorAll('[data-nav]')];
+
+  function route() {
+    let path = location.hash.replace(/^#\/?/, '').replace(/\/$/, '') || 'home';
+    let page = pages.find(p => p.dataset.page === path) || pages.find(p => p.dataset.page === 'home');
+    pages.forEach(p => p.classList.toggle('active', p === page));
+    document.title = page.dataset.title || 'Romit Sen';
+    navLinks.forEach(a => {
+      const section = page.dataset.page.split('/')[0];
+      if (a.dataset.nav === section) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    if (page.dataset.page === 'resume') loadResume();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  /* Make in-file links work even inside sandboxed previews */
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#/"]');
+    if (!a) return;
+    e.preventDefault();
+    if (location.hash === a.getAttribute('href')) { route(); return; }
+    location.hash = a.getAttribute('href');
+  });
+</script>
+</body>
+</html>
